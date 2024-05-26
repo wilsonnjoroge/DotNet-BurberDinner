@@ -1,6 +1,9 @@
+using BurberDinner.Application.Services.Authentication;
+
 var builder = WebApplication.CreateBuilder(args);
 
 {
+    builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
     builder.Services.AddControllers();
 }
 
