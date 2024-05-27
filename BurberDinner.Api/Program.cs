@@ -1,24 +1,17 @@
-
 using BurberDinner.Application;
 using BurberDinner.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-{
-    builder.Services
-    .AddApplication()
-    .AddInfrastructure();
-    
-    builder.Services.AddControllers();
-}
+// Add services to the container
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddControllers();
 
 var app = builder.Build();
-{
-    app.UseHttpsRedirection();
-    app.MapControllers();
 
-    app.Run();
-}
+// Configure the HTTP request pipeline
+app.UseHttpsRedirection();
+app.MapControllers();
 
-
-
+app.Run();
