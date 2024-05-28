@@ -30,10 +30,10 @@ namespace BurberDinner.Api.Controllers
       // Map the response to the authentication result defined
         var response = new AuthenticationResponse
         (
-          authResult.Id,
-          authResult.FirstName,
-          authResult.LastName,
-          authResult.Email,
+          authResult.user.Id,
+          authResult.user.FirstName,
+          authResult.user.LastName,
+          authResult.user.Email,
           authResult.Token
         );
       // Return the response
@@ -53,10 +53,10 @@ namespace BurberDinner.Api.Controllers
       // Map the response to the authentication result defined
         var response = new AuthenticationResponse
         (
-          authResult.Id,
-          authResult.FirstName,
-          authResult.LastName,
-          authResult.Email,
+          authResult.user.Id,
+          authResult.user.FirstName,
+          authResult.user.LastName,
+          authResult.user.Email,
           authResult.Token
         );
       // Return the response
