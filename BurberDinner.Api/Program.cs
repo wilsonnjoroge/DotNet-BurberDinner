@@ -1,3 +1,4 @@
+
 using BurberDinner.Application;
 using BurberDinner.Infrastructure;
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 app.MapControllers();
 
