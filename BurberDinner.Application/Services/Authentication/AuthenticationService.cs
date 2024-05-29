@@ -1,4 +1,5 @@
 
+using BurberDinner.Application.Common.Errors;
 using BurberDinner.Application.Common.Interfaces.Authentication;
 using BurberDinner.Application.Common.Interfaces.Persistence;
 using BurberDinner.Domain.Entities;
@@ -21,7 +22,7 @@ namespace BurberDinner.Application.Services.Authentication
             // Validate user !exists in the db
             if(_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new Exception("User with provided email already exists");
+                throw new DuplicateEmailException();
             }
 
             // Create user(Generate unique id) and persist in to DB
