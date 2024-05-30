@@ -1,7 +1,7 @@
 
+using BurberDinner.Application.Authentication.Common;
 using BurberDinner.Application.Common.Interfaces.Authentication;
 using BurberDinner.Application.Common.Interfaces.Persistence;
-using BurberDinner.Application.Services.Authentication.Common;
 using BurberDinner.Domain.Common.Errors;
 using BurberDinner.Domain.Entities;
 using ErrorOr;

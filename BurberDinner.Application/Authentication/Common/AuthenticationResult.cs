@@ -1,7 +1,7 @@
 
 using BurberDinner.Domain.Entities;
 
-namespace BurberDinner.Application.Services.Authentication.Common
+namespace BurberDinner.Application.Authentication.Common
 {
   public record AuthenticationResult
   (

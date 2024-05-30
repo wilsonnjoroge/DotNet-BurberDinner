@@ -9,9 +9,8 @@ namespace BurberDinner.Domain.Common.Errors
     {
       public static Error DuplicateEmail => Error.Conflict(
         code: "User DuplicateEmail", 
-        description: "Duplicate email"
+        description: "Duplicate email: Email already registered"
       );
-
     }
   }
 }
