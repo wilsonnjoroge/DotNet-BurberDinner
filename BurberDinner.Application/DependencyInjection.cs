@@ -1,7 +1,5 @@
 
-using BurberDinner.Application.Services.Authentication;
-using BurberDinner.Application.Services.Authentication.Commands;
-using BurberDinner.Application.Services.Authentication.Queries;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BurberDinner.Application
@@ -10,8 +8,8 @@ namespace BurberDinner.Application
   {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-      services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
-      services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
+      services.AddMediatR(typeof(DependencyInjection).Assembly);
+
       return services;
     } 
   }

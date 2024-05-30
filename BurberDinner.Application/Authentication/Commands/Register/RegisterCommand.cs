@@ -1,5 +1,5 @@
 
-using BurberDinner.Application.Services.Authentication.Common;
+using BurberDinner.Application.Authentication.Common;
 using ErrorOr;
 using MediatR;
 
