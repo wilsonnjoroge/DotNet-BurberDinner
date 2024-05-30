@@ -1,68 +1,64 @@
-
+using BurberDinner.Application.Authentication.Commands.Register;
 using BurberDinner.Application.Services.Authentication;
+using BurberDinner.Application.Services.Authentication.Commands;
+using BurberDinner.Application.Services.Authentication.Common;
 using BurberDinner.Contracts.Authentication;
+using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurberDinner.Api.Controllers
 {
-  [ApiController]
-  [Route("auth")]
-  public class AuthenticationController : ControllerBase
-  {
-
-    private readonly  IAuthenticationService _authenticationService;
-    public AuthenticationController(IAuthenticationService authenticationService)
+    [Route("auth")]
+    public class AuthenticationController : ApiController
     {
-      _authenticationService = authenticationService;
+      private readonly IMediator _mediator;
+
+        public AuthenticationController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost("register")]
+      public async Task <IActionResult> Register(RegisterRequest request)
+      {
+          // Use the injected IAuthenticationService to call the register method
+          var query = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+          ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
+
+          // Map the response to the authentication result defined
+          return authResult.Match(
+              authResult => Ok(MapToAuthenticationResponse(authResult)),
+              errors => Problem(errors)
+          );
+      }
+
+        [HttpPost("login")]
+        public IActionResult Login(LoginRequest request)
+        {
+            // Use the injected IAuthenticationService to call the login method
+            var authResult = _authenticationQueryService.Login(
+                request.Email,
+                request.Password
+            );
+
+            // Map the response to the authentication result defined
+            return authResult.Match(
+                authResult => Ok(MapToAuthenticationResponse(authResult)),
+                errors => Problem(errors)
+            );
+        }
+
+        private static AuthenticationResponse MapToAuthenticationResponse(AuthenticationResult authResult)
+        {
+            return new AuthenticationResponse
+            (
+                authResult.user.Id,
+                authResult.user.FirstName,
+                authResult.user.LastName,
+                authResult.user.Email,
+                authResult.Token
+            );
+        }
     }
-
-    [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
-    {
-      // Use the injected IAuthenticationService to obtain register method
-      var authResult = _authenticationService.Register(
-        request.FirstName, 
-        request.LastName, 
-        request.Email, 
-        request.Password
-        );
-
-      // Map the response to the authentication result defined
-        var response = new AuthenticationResponse
-        (
-          authResult.user.Id,
-          authResult.user.FirstName,
-          authResult.user.LastName,
-          authResult.user.Email,
-          authResult.Token
-        );
-      // Return the response
-      return Ok(response);
-    }
-
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
-    {
-      // Use the injected IAuthenticationService to obtain login method
-      var authResult = _authenticationService.Login(
-        request.Email, 
-        request.Password
-        );
-
-      // Map the response to the authentication result defined
-        var response = new AuthenticationResponse
-        (
-          authResult.user.Id,
-          authResult.user.FirstName,
-          authResult.user.LastName,
-          authResult.user.Email,
-          authResult.Token
-        );
-      // Return the response
-      return Ok(response);
-    }
-
-  }
 }
-

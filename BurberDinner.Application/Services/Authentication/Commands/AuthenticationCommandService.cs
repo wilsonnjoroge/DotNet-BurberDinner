@@ -2,27 +2,30 @@
 using BurberDinner.Application.Common.Errors;
 using BurberDinner.Application.Common.Interfaces.Authentication;
 using BurberDinner.Application.Common.Interfaces.Persistence;
+using BurberDinner.Application.Services.Authentication.Common;
+using BurberDinner.Domain.Common.Errors;
 using BurberDinner.Domain.Entities;
+using ErrorOr;
 
-namespace BurberDinner.Application.Services.Authentication
+namespace BurberDinner.Application.Services.Authentication.Commands
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationCommandService : IAuthenticationCommandService
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
 
-        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+        public AuthenticationCommandService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             // Validate user !exists in the db
             if(_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new DuplicateEmailException();
+                return Errors.User.DuplicateEmail;
             }
 
             // Create user(Generate unique id) and persist in to DB
@@ -43,30 +46,6 @@ namespace BurberDinner.Application.Services.Authentication
               user, 
               token
             );
-        }
-
-        
-        public AuthenticationResult Login(string email, string password)
-        {
-            // Validate the user exists
-            var user = _userRepository.GetUserByEmail(email);
-            if(user is null)
-            {
-                throw new Exception("User with provided email does not exists");
-            }
-
-            // Validate password is correct
-            if(user.Password!=  password)
-            {
-                throw new Exception("Invalid password");
-            }
-
-            // Create jwt token
-            var token = _jwtTokenGenerator.GenerateToken( user);
-            return new AuthenticationResult(
-              user,
-              token
-              );
         }
 
     }
