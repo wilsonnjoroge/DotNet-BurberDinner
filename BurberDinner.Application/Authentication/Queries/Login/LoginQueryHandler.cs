@@ -23,6 +23,7 @@ namespace BurberDinner.Application.Authentication.Commands.Login
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
           // Validate the user exists
             var user = _userRepository.GetUserByEmail(query.Email);
             if(user is null)

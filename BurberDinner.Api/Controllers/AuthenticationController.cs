@@ -4,6 +4,7 @@ using BurberDinner.Application.Authentication.Queries.Login;
 using BurberDinner.Contracts.Authentication;
 using BurberDinner.Domain.Common.Errors;
 using ErrorOr;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,22 +14,24 @@ namespace BurberDinner.Api.Controllers
     public class AuthenticationController : ApiController
     {
       private readonly ISender _mediator;
+      private readonly IMapper _mapper;
 
-        public AuthenticationController(ISender mediator)
+        public AuthenticationController(ISender mediator, IMapper mapper) 
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
       public async Task <IActionResult> Register(RegisterRequest request)
       {
           // Use the injected IAuthenticationService to call the register method
-          var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+          var command = _mapper.Map<RegisterCommand>(request);
           ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
           // Map the response to the authentication result defined
           return authResult.Match(
-              authResult => Ok(MapToAuthenticationResponse(authResult)),
+              authResult => Ok(_mapper.Map<AuthenticationResult>(authResult)),
               errors => Problem(errors)
           );
       }
@@ -36,7 +39,7 @@ namespace BurberDinner.Api.Controllers
         [HttpPost("login")]
         public async Task <IActionResult> Login(LoginRequest request)
         {
-          var query = new LoginQuery(request.Email, request.Password);
+          var query = _mapper.Map<LoginQuery>(request);
             // Use the injected IAuthenticationService to call the login method
             var authResult = await _mediator.Send(query);
 
@@ -50,20 +53,8 @@ namespace BurberDinner.Api.Controllers
 
             // Map the response to the authentication result defined
             return authResult.Match(
-                authResult => Ok(MapToAuthenticationResponse(authResult)),
+                authResult => Ok(_mapper.Map<AuthenticationResult>(authResult)),
                 errors => Problem(errors)
-            );
-        }
-
-        private static AuthenticationResponse MapToAuthenticationResponse(AuthenticationResult authResult)
-        {
-            return new AuthenticationResponse
-            (
-                authResult.user.Id,
-                authResult.user.FirstName,
-                authResult.user.LastName,
-                authResult.user.Email,
-                authResult.Token
             );
         }
     }

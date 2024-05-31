@@ -23,6 +23,8 @@ namespace BurberDinner.Application.Authentication.Commands.Register
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
+            
             // Validate user !exists in the db
             if(_userRepository.GetUserByEmail(command.Email) is not null)
             {
