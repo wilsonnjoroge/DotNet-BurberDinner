@@ -1,9 +1,6 @@
 
 using System.Reflection;
-using BurberDinner.Application.Authentication.Commands.Register;
-using BurberDinner.Application.Authentication.Common;
 using BurberDinner.Application.Common.Behaviors;
-using ErrorOr;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,16 +8,17 @@ using Microsoft.Extensions.DependencyInjection;
 namespace BurberDinner.Application
 {
     public static class DependencyInjection
-  {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-      services.AddMediatR(typeof(DependencyInjection).Assembly);
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            services.AddMediatR(typeof(DependencyInjection).Assembly);
 
-      services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
-      services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            // Add validators from the assembly
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-      return services;
-    } 
-  }
+            return services;
+        }
+    }
 }
