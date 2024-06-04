@@ -1,4 +1,5 @@
 
+using System.Text;
 using BurberDinner.Application.Common.Interfaces.Authentication;
 using BurberDinner.Application.Common.Interfaces.Persistence;
 using BurberDinner.Appliction.Common.Interfaces.Services;
@@ -8,6 +9,7 @@ using BurberDinner.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BurberDinner.Infrastructure
@@ -27,7 +29,10 @@ namespace BurberDinner.Infrastructure
 
         public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
         {
-            services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+            var jwtSettings = new JwtSettings();
+            configuration.Bind(JwtSettings.SectionName, jwtSettings);
+
+            services.AddSingleton(Options.Create(jwtSettings));
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
             services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
@@ -37,9 +42,9 @@ namespace BurberDinner.Infrastructure
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration[JwtSettings.Issuer],
-                        ValidAudience = configuration[JwtSettings.Audience],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[JwtSettings.Secret]))
+                        ValidIssuer = configuration[jwtSettings.Issuer],
+                        ValidAudience = configuration[jwtSettings.Audience],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                     });
 
             return services;
