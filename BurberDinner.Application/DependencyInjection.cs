@@ -1,4 +1,3 @@
-
 using System.Reflection;
 using BurberDinner.Application.Common.Behaviors;
 using FluentValidation;
@@ -11,11 +10,8 @@ namespace BurberDinner.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(DependencyInjection).Assembly);
-
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
-            // Add validators from the assembly
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
