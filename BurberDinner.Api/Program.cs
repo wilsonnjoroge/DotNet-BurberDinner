@@ -1,7 +1,6 @@
 using BurberDinner.Api;
 using BurberDinner.Application;
 using BurberDinner.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
