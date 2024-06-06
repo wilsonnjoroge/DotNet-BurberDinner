@@ -1,6 +1,7 @@
 
 using BurberDinner.Domain.Common.Models;
 using BurberDinner.Domain.User.ValueObjects;
+using BurberDinner.Domain.Common.Utils;
 
 namespace BurberDinner.Domain.User.Entities
 {
@@ -9,7 +10,7 @@ namespace BurberDinner.Domain.User.Entities
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Email { get; private set; }
-        private string Password { get; set; }  
+        private string Password { get; set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime UpdatedDateTime { get; private set; }
 
@@ -18,14 +19,14 @@ namespace BurberDinner.Domain.User.Entities
             string firstName,
             string lastName,
             string email,
-            string password, 
+            string password,
             DateTime createdDateTime,
             DateTime updatedDateTime) : base(userId)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Password = password;  
+            Password = PasswordHasher.HashPassword(password);
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
         }
@@ -34,14 +35,14 @@ namespace BurberDinner.Domain.User.Entities
             string firstName,
             string lastName,
             string email,
-            string password)  
+            string password)
         {
             return new User(
                 UserId.CreateUnique(),
                 firstName,
                 lastName,
                 email,
-                password,  
+                password,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
@@ -59,10 +60,15 @@ namespace BurberDinner.Domain.User.Entities
             UpdatedDateTime = DateTime.UtcNow;
         }
 
-        public void UpdatePassword(string password)  
+        public void UpdatePassword(string password)
         {
-            Password = password;  
+            Password = PasswordHasher.HashPassword(password);
             UpdatedDateTime = DateTime.UtcNow;
+        }
+
+        public bool VerifyPassword(string password)
+        {
+            return PasswordHasher.VerifyPassword(Password, password);
         }
     }
 }
