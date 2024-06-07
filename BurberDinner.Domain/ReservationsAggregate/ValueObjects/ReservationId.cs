@@ -1,9 +1,8 @@
 
 using BurberDinner.Domain.Common.Models;
-using System;
-using System.Collections.Generic;
 
-namespace BurberDinner.Domain.Reservation.ValueObjects
+
+namespace BurberDinner.Domain.ReservationsAggregate.ValueObjects
 {
     public class ReservationId : ValueObject
     {

@@ -1,6 +1,6 @@
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.Host.ValueObjects
+namespace BurberDinner.Domain.HostAggregate.ValueObjects
 {
     public sealed class HostId : ValueObject
     {

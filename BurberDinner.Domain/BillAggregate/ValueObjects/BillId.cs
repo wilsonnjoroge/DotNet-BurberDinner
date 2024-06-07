@@ -1,7 +1,8 @@
 
+
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.Bill.ValueObjects
+namespace BurberDinner.Domain.BillAggregate.ValueObjects
 {
     public class BillId : ValueObject
     {

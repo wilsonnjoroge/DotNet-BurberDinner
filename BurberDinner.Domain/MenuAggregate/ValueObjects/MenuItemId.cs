@@ -1,7 +1,7 @@
 
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.Menu.ValueObjects
+namespace BurberDinner.Domain.MenuAggregate.ValueObjects
 {
     public class MenuItemId : ValueObject
     {

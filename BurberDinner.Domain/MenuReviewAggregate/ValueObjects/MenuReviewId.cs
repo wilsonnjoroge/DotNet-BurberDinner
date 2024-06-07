@@ -2,7 +2,7 @@
 
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.MenuReview.ValueObjects
+namespace BurberDinner.Domain.MenuReviewAggregate.ValueObjects
 {
   public sealed class MenuReviewId : ValueObject
   {
@@ -13,7 +13,7 @@ namespace BurberDinner.Domain.MenuReview.ValueObjects
       Value = value;
     }
 
-    public static MenuReviewId New()
+    public static MenuReviewId CreateUnique()
     {
       return new MenuReviewId(Guid.NewGuid());
     }
