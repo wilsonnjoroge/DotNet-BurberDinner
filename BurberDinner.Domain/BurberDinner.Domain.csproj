@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ErrorOr" Version="2.0.1"/>
+    <PackageReference Include="BCrypt.Net" Version="*"/>
   </ItemGroup>
 </Project>
