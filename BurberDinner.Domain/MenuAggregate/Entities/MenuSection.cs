@@ -33,7 +33,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void RemoveItem(MenuItemId itemId)
         {
             var item = _items.Find(i => i.Id == itemId);
-            if (item != null)
+            if (item is not null)
             {
                 _items.Remove(item);
             }
@@ -42,7 +42,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void UpdateItem(MenuItem item)
         {
             var existingItem = _items.Find(i => i.Id == item.Id);
-            if (existingItem != null)
+            if (existingItem is not null)
             {
                 _items.Remove(existingItem);
                 _items.Add(item);

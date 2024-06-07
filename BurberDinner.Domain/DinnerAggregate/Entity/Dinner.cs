@@ -98,7 +98,7 @@ namespace BurberDinner.Domain.DinnerAggregate.Entity
 
         public void StartDinner()
         {
-            if (Status != DinnerStatus.Upcoming)
+            if (Status is not DinnerStatus.Upcoming)
             {
                 throw new InvalidOperationException("Dinner cannot be started in its current state.");
             }
@@ -110,7 +110,7 @@ namespace BurberDinner.Domain.DinnerAggregate.Entity
 
         public void EndDinner()
         {
-            if (Status != DinnerStatus.InProgress)
+            if (Status is not DinnerStatus.InProgress)
             {
                 throw new InvalidOperationException("Dinner cannot be ended in its current state.");
             }
@@ -145,7 +145,7 @@ namespace BurberDinner.Domain.DinnerAggregate.Entity
         public void RemoveReservation(ReservationId reservationId)
         {
             var reservation = _reservations.FirstOrDefault(r => r.Id == reservationId);
-            if (reservation != null)
+            if (reservation is not null)
             {
                 _reservations.Remove(reservation);
                 UpdatedDateTime = DateTime.UtcNow;
@@ -155,7 +155,7 @@ namespace BurberDinner.Domain.DinnerAggregate.Entity
         public void UpdateReservation(Reservation updatedReservation)
         {
             var existingReservation = _reservations.FirstOrDefault(r => r.Id == updatedReservation.Id);
-            if (existingReservation != null)
+            if (existingReservation is not null)
             {
                 _reservations.Remove(existingReservation);
                 _reservations.Add(updatedReservation);
