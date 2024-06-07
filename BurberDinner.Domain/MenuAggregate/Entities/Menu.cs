@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using BurberDinner.Domain.Common.Models;
-using BurberDinner.Domain.Menu.ValueObjects;
-using BurberDinner.Domain.Menu.Entities;
-using BurberDinner.Domain.Dinner.ValueObjects;
-using BurberDinner.Domain.MenuReview.ValueObjects;
 
-namespace BurberDinner.Domain.Menu
+using BurberDinner.Domain.Common.Models;
+using BurberDinner.Domain.DinnerAggregate.ValueObjects;
+using BurberDinner.Domain.MenuAggregate.ValueObjects;
+using BurberDinner.Domain.MenuReviewAggregate.ValueObjects;
+
+namespace BurberDinner.Domain.MenuAggregate.Entities
 {
     public sealed class Menu : Entity<MenuId>
     {

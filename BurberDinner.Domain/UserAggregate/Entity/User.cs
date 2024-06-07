@@ -1,9 +1,9 @@
 
 using BurberDinner.Domain.Common.Models;
-using BurberDinner.Domain.User.ValueObjects;
 using BurberDinner.Domain.Common.Utils;
+using BurberDinner.Domain.UserAggregate.ValueObjects;
 
-namespace BurberDinner.Domain.User.Entities
+namespace BurberDinner.Domain.UserAggregate.Entity
 {
     public sealed class User : Entity<UserId>
     {

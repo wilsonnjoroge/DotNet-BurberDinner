@@ -1,13 +1,13 @@
+
+using BurberDinner.Domain.BillAggregate.ValueObjects;
 using BurberDinner.Domain.Common.Models;
-using BurberDinner.Domain.Reservation.ValueObjects;
-using BurberDinner.Domain.Dinner.ValueObjects;
-using BurberDinner.Domain.Guest.ValueObjects;
-using BurberDinner.Domain.Host.ValueObjects;
+using BurberDinner.Domain.DinnerAggregate.ValueObjects;
+using BurberDinner.Domain.GuestAggregate.ValueObjects;
+using BurberDinner.Domain.HostAggregate.ValueObjects;
 
-
-namespace BurberDinner.Domain.Reservation.Entities
+namespace BurberDinner.Domain.BillAggregate.Entity
 {
-    public sealed class Reservation : Entity<ReservationId>
+    public sealed class Bill : Entity<BillId>
     {
         public DinnerId DinnerId { get; private set; }
         public GuestId GuestId { get; private set; }
@@ -16,14 +16,14 @@ namespace BurberDinner.Domain.Reservation.Entities
         public DateTime CreatedDateTime { get; private set; }
         public DateTime UpdatedDateTime { get; private set; }
 
-        private Reservation(
-            ReservationId reservationId,
+        private Bill(
+            BillId billId,
             DinnerId dinnerId,
             GuestId guestId,
             HostId hostId,
             Price price,
             DateTime createdDateTime,
-            DateTime updatedDateTime) : base(reservationId)
+            DateTime updatedDateTime) : base(billId)
         {
             DinnerId = dinnerId;
             GuestId = guestId;
@@ -33,14 +33,14 @@ namespace BurberDinner.Domain.Reservation.Entities
             UpdatedDateTime = updatedDateTime;
         }
 
-        public static Reservation Create(
+        public static Bill Create(
             DinnerId dinnerId,
             GuestId guestId,
             HostId hostId,
             Price price)
         {
-            return new Reservation(
-                ReservationId.CreateUnique(),
+            return new Bill(
+                BillId.CreateUnique(),
                 dinnerId,
                 guestId,
                 hostId,
@@ -52,6 +52,24 @@ namespace BurberDinner.Domain.Reservation.Entities
         public void UpdatePrice(Price newPrice)
         {
             Price = newPrice;
+            UpdatedDateTime = DateTime.UtcNow;
+        }
+
+        public void UpdateDinnerId(DinnerId newDinnerId)
+        {
+            DinnerId = newDinnerId;
+            UpdatedDateTime = DateTime.UtcNow;
+        }
+
+        public void UpdateGuestId(GuestId newGuestId)
+        {
+            GuestId = newGuestId;
+            UpdatedDateTime = DateTime.UtcNow;
+        }
+
+        public void UpdateHostId(HostId newHostId)
+        {
+            HostId = newHostId;
             UpdatedDateTime = DateTime.UtcNow;
         }
     }

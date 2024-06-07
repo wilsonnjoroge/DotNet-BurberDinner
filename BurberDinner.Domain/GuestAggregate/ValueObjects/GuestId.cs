@@ -1,7 +1,7 @@
 
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.Guest.ValueObjects
+namespace BurberDinner.Domain.GuestAggregate.ValueObjects
 {
     public class GuestId : ValueObject
     {

@@ -1,11 +1,11 @@
 
 using BurberDinner.Domain.Common.Models;
-using BurberDinner.Domain.Host.ValueObjects;
-using BurberDinner.Domain.Menu.ValueObjects;
-using BurberDinner.Domain.Dinner.ValueObjects;
+using BurberDinner.Domain.DinnerAggregate.ValueObjects;
+using BurberDinner.Domain.HostAggregate.ValueObjects;
+using BurberDinner.Domain.MenuAggregate.ValueObjects;
 
 
-namespace BurberDinner.Domain.Host.Entities
+namespace BurberDinner.Domain.HostAggregate.Entity
 {
     public sealed class Host : Entity<HostId>
     {

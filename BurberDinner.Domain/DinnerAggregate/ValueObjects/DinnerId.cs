@@ -1,10 +1,9 @@
 
-
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.Dinner.ValueObjects
+namespace BurberDinner.Domain.DinnerAggregate.ValueObjects
 {
-    public sealed class DinnerId : ValueObject
+    public class DinnerId : ValueObject
     {
         public Guid Value { get; }
 
@@ -15,7 +14,12 @@ namespace BurberDinner.Domain.Dinner.ValueObjects
 
         public static DinnerId CreateUnique()
         {
-            return new (Guid.NewGuid());
+            return new DinnerId(Guid.NewGuid());
+        }
+
+        public static DinnerId Create(Guid value)
+        {
+            return new DinnerId(value);
         }
 
         public override IEnumerable<object> GetEqualityComponents()

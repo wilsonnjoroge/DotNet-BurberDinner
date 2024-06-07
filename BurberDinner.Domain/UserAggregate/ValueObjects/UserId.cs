@@ -1,7 +1,7 @@
 
 using BurberDinner.Domain.Common.Models;
 
-namespace BurberDinner.Domain.User.ValueObjects
+namespace BurberDinner.Domain.UserAggregate.ValueObjects
 {
     public class UserId : ValueObject
     {
