@@ -95,7 +95,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void RemoveSection(MenuSectionId sectionId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
-            if (section != null)
+            if (section is not null)
             {
                 _sections.Remove(section);
                 UpdatedDateTime = DateTime.UtcNow;
@@ -105,7 +105,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void UpdateSection(MenuSection section)
         {
             var existingSection = _sections.Find(s => s.Id == section.Id);
-            if (existingSection != null)
+            if (existingSection is not null)
             {
                 _sections.Remove(existingSection);
                 _sections.Add(section);
@@ -116,7 +116,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void AddMenuItemToSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
-            if (section != null)
+            if (section is not null)
             {
                 section.AddItem(item);
                 UpdatedDateTime = DateTime.UtcNow;
@@ -126,7 +126,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void RemoveMenuItemFromSection(MenuSectionId sectionId, MenuItemId itemId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
-            if (section != null)
+            if (section is not null)
             {
                 section.RemoveItem(itemId);
                 UpdatedDateTime = DateTime.UtcNow;
@@ -136,7 +136,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public void UpdateMenuItemInSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
-            if (section != null)
+            if (section is not null)
             {
                 section.UpdateItem(item);
                 UpdatedDateTime = DateTime.UtcNow;
