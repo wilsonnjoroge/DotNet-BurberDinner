@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1"/>
     <PackageReference Include="Mapster" Version="7.4.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.4.24267.1"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BurberDinner.Application\BurberDinner.Application.csproj"/>

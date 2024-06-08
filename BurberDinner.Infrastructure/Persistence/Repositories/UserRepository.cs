@@ -2,7 +2,7 @@
 using BurberDinner.Application.Common.Interfaces.Persistence;
 using BurberDinner.Domain.Entities;
 
-namespace BurberDinner.Infrastructure.Persistence
+namespace BurberDinner.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {

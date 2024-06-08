@@ -24,6 +24,8 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
         public DateTime CreatedDateTime { get; private set; }
         public DateTime UpdatedDateTime { get; private set; }
 
+
+        // Parameterized constructor
         private Menu(
             MenuId menuId,
             HostId hostId,
@@ -43,11 +45,12 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             _sections = sections;
         }
 
+        // Factory method to create a new Menu instance
         public static Menu Create(
             HostId hostId,
             string name,
             string description,
-            double? averageRating, // Make it nullable
+            double? averageRating,
             List<MenuSection> sections)
         {
             return new Menu(
@@ -55,13 +58,13 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
                 hostId,
                 name,
                 description,
-                averageRating ?? 0, // Use null-coalescing operator here
+                averageRating ?? 0,
                 DateTime.UtcNow,
                 DateTime.UtcNow,
                 sections);
         }
 
-        // Adding a Dinner to the Menu
+        // Method to add a dinner to the menu
         public void AddDinner(DinnerId dinnerId)
         {
             if (!_dinnerIds.Contains(dinnerId))
@@ -71,7 +74,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Removing a Dinner from the Menu
+        // Method to remove a dinner from the menu
         public void RemoveDinner(DinnerId dinnerId)
         {
             if (_dinnerIds.Contains(dinnerId))
@@ -81,7 +84,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Adding a MenuReview to the Menu
+        // Method to add a menu review to the menu
         public void AddMenuReview(MenuReviewId menuReviewId)
         {
             if (!_menuReviewIds.Contains(menuReviewId))
@@ -91,7 +94,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Removing a MenuReview from the Menu
+        // Method to remove a menu review from the menu
         public void RemoveMenuReview(MenuReviewId menuReviewId)
         {
             if (_menuReviewIds.Contains(menuReviewId))
@@ -101,14 +104,14 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Adding a Section to the Menu
+        // Method to add a section to the menu
         public void AddSection(MenuSection section)
         {
             _sections.Add(section);
             UpdatedDateTime = DateTime.UtcNow;
         }
 
-        // Removing a Section from the Menu
+        // Method to remove a section from the menu
         public void RemoveSection(MenuSectionId sectionId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -119,7 +122,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Updating a Section in the Menu
+        // Method to update a section in the menu
         public void UpdateSection(MenuSection section)
         {
             var existingSection = _sections.Find(s => s.Id == section.Id);
@@ -131,7 +134,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Adding an Item to a Section in the Menu
+        // Method to add a menu item to a section in the menu
         public void AddMenuItemToSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -142,7 +145,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Removing an Item from a Section in the Menu
+        // Method to remove a menu item from a section in the menu
         public void RemoveMenuItemFromSection(MenuSectionId sectionId, MenuItemId itemId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -153,7 +156,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        // Updating an Item in a Section in the Menu
+        // Method to update a menu item in a section in the menu
         public void UpdateMenuItemInSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -164,9 +167,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
-        public static Menu Create(string hostId, string name, string description, double? averageRating, List<MenuSection> sections)
-        {
-            throw new NotImplementedException();
-        }
+        // Additional methods can be added as needed
+
     }
 }
