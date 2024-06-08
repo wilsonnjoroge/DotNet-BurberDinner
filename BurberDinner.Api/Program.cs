@@ -1,6 +1,10 @@
 using BurberDinner.Api;
 using BurberDinner.Application;
 using BurberDinner.Infrastructure;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 

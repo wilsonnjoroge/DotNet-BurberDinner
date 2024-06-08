@@ -9,7 +9,7 @@ namespace BurberDinner.Api.Controllers
     [HttpGet]
     public IActionResult ListDinner()
     {
-      return Ok(Array.Empty<string>());
+      return Ok();
     }
   }
 }

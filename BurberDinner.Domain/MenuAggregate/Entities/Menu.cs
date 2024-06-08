@@ -1,8 +1,10 @@
-
 using BurberDinner.Domain.Common.Models;
 using BurberDinner.Domain.DinnerAggregate.ValueObjects;
 using BurberDinner.Domain.MenuAggregate.ValueObjects;
 using BurberDinner.Domain.MenuReviewAggregate.ValueObjects;
+using BurberDinner.Domain.HostAggregate.ValueObjects;
+using System;
+using System.Collections.Generic;
 
 namespace BurberDinner.Domain.MenuAggregate.Entities
 {
@@ -14,7 +16,8 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
 
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public double AverageRating { get; private set; }
+        public double? AverageRating { get; private set; } = null;
+        public HostId HostId { get; private set; }
         public IReadOnlyList<MenuSection> Sections => _sections.AsReadOnly();
         public IReadOnlyList<DinnerId> DinnerIds => _dinnerIds.AsReadOnly();
         public IReadOnlyList<MenuReviewId> MenuReviewIds => _menuReviewIds.AsReadOnly();
@@ -23,33 +26,42 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
 
         private Menu(
             MenuId menuId,
+            HostId hostId,
             string name,
             string description,
-            double averageRating,
+            double? averageRating,
             DateTime createdDateTime,
-            DateTime updatedDateTime) : base(menuId)
+            DateTime updatedDateTime,
+            List<MenuSection> sections) : base(menuId)
         {
+            HostId = hostId;
             Name = name;
             Description = description;
             AverageRating = averageRating;
             CreatedDateTime = createdDateTime;
             UpdatedDateTime = updatedDateTime;
+            _sections = sections;
         }
 
         public static Menu Create(
+            HostId hostId,
             string name,
             string description,
-            double averageRating)
+            double? averageRating, // Make it nullable
+            List<MenuSection> sections)
         {
             return new Menu(
                 MenuId.CreateUnique(),
+                hostId,
                 name,
                 description,
-                averageRating,
+                averageRating ?? 0, // Use null-coalescing operator here
                 DateTime.UtcNow,
-                DateTime.UtcNow);
+                DateTime.UtcNow,
+                sections);
         }
 
+        // Adding a Dinner to the Menu
         public void AddDinner(DinnerId dinnerId)
         {
             if (!_dinnerIds.Contains(dinnerId))
@@ -59,6 +71,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Removing a Dinner from the Menu
         public void RemoveDinner(DinnerId dinnerId)
         {
             if (_dinnerIds.Contains(dinnerId))
@@ -68,6 +81,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Adding a MenuReview to the Menu
         public void AddMenuReview(MenuReviewId menuReviewId)
         {
             if (!_menuReviewIds.Contains(menuReviewId))
@@ -77,6 +91,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Removing a MenuReview from the Menu
         public void RemoveMenuReview(MenuReviewId menuReviewId)
         {
             if (_menuReviewIds.Contains(menuReviewId))
@@ -86,12 +101,14 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Adding a Section to the Menu
         public void AddSection(MenuSection section)
         {
             _sections.Add(section);
             UpdatedDateTime = DateTime.UtcNow;
         }
 
+        // Removing a Section from the Menu
         public void RemoveSection(MenuSectionId sectionId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -102,6 +119,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Updating a Section in the Menu
         public void UpdateSection(MenuSection section)
         {
             var existingSection = _sections.Find(s => s.Id == section.Id);
@@ -113,6 +131,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Adding an Item to a Section in the Menu
         public void AddMenuItemToSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -123,6 +142,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Removing an Item from a Section in the Menu
         public void RemoveMenuItemFromSection(MenuSectionId sectionId, MenuItemId itemId)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -133,6 +153,7 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
             }
         }
 
+        // Updating an Item in a Section in the Menu
         public void UpdateMenuItemInSection(MenuSectionId sectionId, MenuItem item)
         {
             var section = _sections.Find(s => s.Id == sectionId);
@@ -141,6 +162,11 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
                 section.UpdateItem(item);
                 UpdatedDateTime = DateTime.UtcNow;
             }
+        }
+
+        public static Menu Create(string hostId, string name, string description, double? averageRating, List<MenuSection> sections)
+        {
+            throw new NotImplementedException();
         }
     }
 }
