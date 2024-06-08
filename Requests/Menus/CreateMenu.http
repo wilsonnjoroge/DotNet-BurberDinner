@@ -11,7 +11,7 @@ Authorization: Bearer {{token}}
     "hostId": "" ,
     "name": "Yummy Menu",
     "description": "A menu with yummy food",
-    "averageRating": 4.5,
+    "averageRating": 4.5 ,
     "sections": [
         {
             "name": "Appetizers",
