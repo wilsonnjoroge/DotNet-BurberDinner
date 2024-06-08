@@ -6,23 +6,27 @@ namespace BurberDinner.Domain.MenuAggregate.Entities
     public sealed class MenuSection : Entity<MenuSectionId>
     {
         private readonly List<MenuItem> _items = new();
+
         public string Name { get; }
         public string Description { get; }
 
         public IReadOnlyList<MenuItem> Items => _items.AsReadOnly();
 
-        public MenuSection(MenuSectionId menuSectionId, string name, string description) : base(menuSectionId)
+        public MenuSection(MenuSectionId menuSectionId, string name, string description, List<MenuItem> items = null!) : base(menuSectionId)
         {
             Name = name;
             Description = description;
+            _items = items ?? new List<MenuItem>(); // Initialize with provided items or empty list
         }
 
-        public static MenuSection Create(string name, string description)
+        public static MenuSection Create(string name, string description, List<MenuItem> items)
         {
             return new MenuSection(
                 MenuSectionId.CreateUnique(),
                 name,
-                description);
+                description,
+                items
+            );
         }
 
         public void AddItem(MenuItem item)

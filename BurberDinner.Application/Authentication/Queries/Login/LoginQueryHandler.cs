@@ -38,7 +38,8 @@ namespace BurberDinner.Application.Authentication.Commands.Login
             }
 
             // Create jwt token
-            var token = _jwtTokenGenerator.GenerateToken( user);
+            var token = _jwtTokenGenerator.GenerateToken(user);
+
             return new AuthenticationResult(
               user,
               token

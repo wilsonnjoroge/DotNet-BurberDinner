@@ -20,8 +20,18 @@ namespace BurberDinner.Infrastructure
         {
             services.AddAuth(configuration);
 
+            services.AddPersistence();
+
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddPersistence(this IServiceCollection services)
+        {
+            services.AddScoped<IMenuRepository, MenuRepository >();
             services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
@@ -39,7 +49,7 @@ namespace BurberDinner.Infrastructure
                     .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = configuration[jwtSettings.Issuer],
